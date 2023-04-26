@@ -13,6 +13,7 @@ import "dotenv/config"
 const router = express.Router();
 
 router.post("/", async (req, res) => {
+  console.log("in local server")
     const {error} = validateEmail(req.body);
     if(error) return res.status(400).send(error.details[0].message);
 
@@ -27,8 +28,8 @@ router.post("/", async (req, res) => {
     var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.G_EMAIL_USERNAME,
-        pass: process.env.G_PASSWORD,
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.PASSWORD,
       },
     });
 
@@ -91,7 +92,7 @@ router.post("/", async (req, res) => {
     await saveOtp.save();
 
     res.send({
-      status: `Successfully Send OTP to ${req.body.email}`,
+      status: `Successfully Send OTP to ${req.body.mailId}`,
       data: _.pick(saveOtp, ["_id", "email"]),
     });
 

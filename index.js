@@ -1,9 +1,10 @@
 import express from 'express';
 import cors from "cors";
+import 'dotenv/config'
 import mongoose from 'mongoose'
 import fileUpload from 'express-fileupload';
 import rootRoutes from './routes/auth/auth.js';
-import  sendOtp from './routes/auth/sendOtp.js';
+import sendOtp from './routes/auth/sendOtp.js';
 import verifyOtp from './routes/auth/verifyOtp.js';
 import updatePassword from './routes/auth/updatePassword.js';
 import updateUser from './routes/updateUser.js';
@@ -20,7 +21,7 @@ import certificationToS3 from './routes/uploadToS3/certificationToS3.js'
 import offerLetterToS3 from './routes/uploadToS3/offerLetterToS3.js'
 import completionCertificateToS3 from './routes/uploadToS3/completionCertificateToS3.js'
 
-var mongoDB = "mongodb+srv://IIIC_Admin:efQVIGrWVd76ZyOx@cluster0.n9z6ciw.mongodb.net/?retryWrites=true&w=majority";
+var mongoDB = process.env.DB_URL;
 const port = process.env.PORT || 8000;
 
 mongoose
