@@ -13,7 +13,6 @@ import "dotenv/config"
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-  console.log("in local server")
     const {error} = validateEmail(req.body);
     if(error) return res.status(400).send(error.details[0].message);
 
@@ -70,15 +69,22 @@ router.post("/", async (req, res) => {
     });
 
     try {
-      transporter.sendMail(mailOptions, function (error, info) {
+      transporter.sendMail(mailOptions, async function (error, info) {
         if (error) {
           console.log(error);
         } else {
           console.log("Email sent: " + info.response);
+          await saveOtp.save();
+          res.send({
+            status: `Successfully Send OTP to ${req.body.mailId}`,
+            data: _.pick(saveOtp, ["_id", "email"]),
+          });
         }
       });
     } catch (error) {
-      console.log("Try Again.....")
+      res.send({
+        status: "Try Again....."
+      })
     }
     
     // try {
@@ -87,15 +93,6 @@ router.post("/", async (req, res) => {
     // } catch (err) {
     //   console.error(err);
     // }
-
-
-    await saveOtp.save();
-
-    res.send({
-      status: `Successfully Send OTP to ${req.body.mailId}`,
-      data: _.pick(saveOtp, ["_id", "email"]),
-    });
-
 });
 
 function validateEmail(req) {
