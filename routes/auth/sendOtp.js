@@ -5,6 +5,9 @@ import User from "../../models/user.js";
 import _ from "lodash";
 import Otp from "../../models/otp.js";
 import nodemailer from 'nodemailer'
+// import email from 'emailjs'
+// import { SMTPClient, Message } from 'emailjs';
+// import emailjs from '@emailjs/browser';
 import "dotenv/config"
 
 const router = express.Router();
@@ -18,33 +21,40 @@ router.post("/", async (req, res) => {
     });
     if(!user) return res.status(400).send(`${req.body.mailId} is not exit in data base`);
 
+    await Otp.deleteMany({email: req.body.mailId});
+
 
     var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        type: 'OAuth2',
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.PASSWORD,
-        clientId: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        refreshToken: process.env.REFRESH_TOKEN,
-        exprires: 8200000000000000
+        user: process.env.G_EMAIL_USERNAME,
+        pass: process.env.G_PASSWORD,
       },
     });
 
+    // const client = email.server.connect({
+    //   user: process.env.EMAIL_USERNAME,
+    //   password: process.env.PASSWORD,
+    //   host: 'smtp-mail.outlook.com',
+    //   tls : true,
+    //   port : 587
+    // });
+
 
     var otp = Math.floor(1000 + Math.random() * 15000);
-    console.log(otp)
+    // console.log(otp)
+
     var mailOptions = {
       from: `"MITS Interns" ${process.env.EMAIL_USERNAME}`,
       to: req.body.mailId,
-      subject: "Hello ✔ Reset your password ", 
-      html: `
-              <p>Do not share this OTP with anyone. Your OTP is: ${otp} 
-              Please enter your OTP and Change your password....
-           </p>`,
+      subject: "Hello, Reset Password ", 
+      text:``,
+      html:`<html>
+      <h3>Hello👋🏻</h3>
+      <p>Do not share this OTP with anyone.<br/><strong>Your OTP is ${otp}.</strong><br/> This OTP is valid for only <strong>180 seconds.</strong> Please enter your OTP and Change your password.<br/><br/>⚠️ &nbsp; <strong>If you have not requested the OTP, please ignore this email.</strong>   <br/> <br/><strong>Thank you,<br/> MITS Interns.</strong> </p>
+      </html>`
     };
-
+      
 
     let otpText = otp.toString();
 
@@ -55,7 +65,7 @@ router.post("/", async (req, res) => {
       email: req.body.mailId,
       otp: hashOTP,
       createAt: Date.now(),
-      expriresAt: Date.now() + 120000,
+      expriresAt: Date.now() + 180000,
     });
 
     try {
@@ -70,6 +80,12 @@ router.post("/", async (req, res) => {
       console.log("Try Again.....")
     }
     
+    // try {
+    //   const message = await client.sendAsync(mailOptions);
+    //   console.log('sent message successfully.....');
+    // } catch (err) {
+    //   console.error(err);
+    // }
 
 
     await saveOtp.save();

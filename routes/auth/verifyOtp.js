@@ -15,12 +15,12 @@ router.post('/',async (req,res)=>{
     const otpDetails = await Otp.findOne({mailId:req.body.mailId,});
     // if(!otpDetails) res.send(400).send(`there is no Otp send to This ${req.body.mailId}`);
 
-    if (otpDetails.expriresAt < Date.now()){
-        return res.status(401).send("Otp has expired request again");
-    }
+    // if (otpDetails.expriresAt < Date.now()){
+    //     return res.status(401).send("Otp has expired request again");
+    // }
       
     const validotp = await bcrypt.compare(req.body.otp, otpDetails.otp);
-    if (!validotp) return res.status(400).send("Invalid otp");
+    if (!validotp) return res.status(400).send("Invalid OTP");
 
     await Otp.updateOne(
        {
