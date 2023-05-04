@@ -24,9 +24,12 @@ router.post("/", async (req, res) => {
     "profile",
   ]);
 
+  const count = await Certification.count({ studentId: req.body.studentId})
+
   const certification = new Certification({
     studentDetails: studentDetails,
     studentId: req.body.studentId,
+    SNo:count+1,
     organizationName: req.body.organizationName,
     certificationName: req.body.certificationName,
     status: req.body.status,
@@ -37,7 +40,7 @@ router.post("/", async (req, res) => {
   });
 
   await certification.save();
-  console.log("herlfkwme")
+  // console.log("herlfkwme")
 
   res.send(certification);
 });

@@ -36,9 +36,6 @@ const userSchema = new mongoose.Schema({
   section: {
     type: String,
   },
-  altmail: {
-    type: String,
-  },
   password: {
     type: String,
     require: true,

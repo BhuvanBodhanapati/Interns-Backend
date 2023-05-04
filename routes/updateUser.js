@@ -20,7 +20,6 @@ router.put('/', async (req,res)=>{
             year: req.body.year,
             rollno: req.body.rollno,
             section: req.body.section,
-            altmail: req.body.altmail,
         },
     }
     );
@@ -36,7 +35,6 @@ router.put('/', async (req,res)=>{
           "studentDetails.year": req.body.year,
           "studentDetails.rollno": req.body.rollno,
           "studentDetails.section": req.body.section,
-         " studentDetails.altmail": req.body.altmail,
         },
       }
     );
@@ -52,7 +50,6 @@ router.put('/', async (req,res)=>{
           "studentDetails.year": req.body.year,
           "studentDetails.rollno": req.body.rollno,
           "studentDetails.section": req.body.section,
-          " studentDetails.altmail": req.body.altmail,
         },
       }
     );
@@ -76,7 +73,6 @@ router.put('/', async (req,res)=>{
          "phoneNumber",
          "profile",
          "section",
-         "altmail"
        ])
      );
     

@@ -3,6 +3,7 @@ import cors from "cors";
 import 'dotenv/config'
 import mongoose from 'mongoose'
 import fileUpload from 'express-fileupload';
+import registerUsers from './routes/admin/registerUsers.js'
 import rootRoutes from './routes/auth/auth.js';
 import sendOtp from './routes/auth/sendOtp.js';
 import verifyOtp from './routes/auth/verifyOtp.js';
@@ -39,7 +40,7 @@ app.use(cors())
 // app.use(fileUpload())
 
 
-
+app.use('/api/admin', registerUsers);
 app.use("/api/auth", rootRoutes);
 app.use("/api/send-otp", sendOtp);
 app.use("/api/verify-otp", verifyOtp);

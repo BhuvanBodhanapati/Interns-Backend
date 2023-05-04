@@ -26,10 +26,12 @@ router.post('/',async (req,res)=>{
       'section'
     ]);
 
+  const count = await Work.count({ studentId: req.body.studentId})
 
     const work = new Work({
       studentDetails: studentDetails,
       studentId: req.body.studentId,
+      SNo:count+1,
       projectName: req.body.projectName,
       addWorkAt: new Date(),
       companyName: req.body.companyName,

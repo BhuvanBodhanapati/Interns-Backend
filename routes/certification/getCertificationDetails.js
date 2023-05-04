@@ -88,7 +88,7 @@ router.post("/all-certifications", async (req, res) => {
 
   var pageNumber = req.body.page;
   var startFrom = (pageNumber - 1) * size;
-  console.log(size, pageNumber, startFrom)
+  // console.log(size, pageNumber, startFrom)
 
   const certification = await Certification.find(filterCertificationsDetails)
     .sort({ organizationName: 1 })

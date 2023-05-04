@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
     if(error) return res.status(400).send(error.details[0].message);
 
     let user = await User.findOne({
-        mailId:req.body.mailId,
+        mailId:req.body.mailId.toLowerCase(),
     });
     if(!user) return res.status(400).send(`${req.body.mailId} is not exit in data base`);
 

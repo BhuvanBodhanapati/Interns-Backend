@@ -7,6 +7,10 @@ const workSchema = new mongoose.Schema({
   studentId: {
     type: String,
   },
+  SNo : {
+    type: Number,
+    require:true,
+  },
   companyName: {
     type: String,
     minlenght: 3,

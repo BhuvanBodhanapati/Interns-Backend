@@ -2,12 +2,14 @@ import multer from "multer";
 import multerS3 from 'multer-s3'
 import aws from 'aws-sdk'
 
-
-const s3 = new aws.S3({
+aws.config.update({
   accessKeyId : process.env.S3_ACCESS_KEY,
   secretAccessKey : process.env.S3_SECRET_ACCESS_KEY,
   region: process.env.S3_BUCKET_REGION,
 })
+
+export const s3 = new aws.S3()
+
 // {params : {Bucket : 'mits-interns-profile-picture'}}
 export const upload = (bucketName, fileName) => (
   multer({

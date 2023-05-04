@@ -23,7 +23,6 @@ router.post("/user" , async (req,res)=>{
         "phoneNumber",
         "profile",
         "section",
-        "altmail",
       ])
     );
 })
@@ -33,7 +32,7 @@ router.post("/", async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   const user = await User.findOne({
-    mailId: req.body.mailId,
+    mailId: req.body.mailId.toLowerCase(),
   });
   if (!user) return res.status(400).send("Email not found");
 
@@ -53,7 +52,6 @@ router.post("/", async (req, res) => {
         "phoneNumber",
         "profile",
         "section",
-        "altmail",
       ])
     );
   });

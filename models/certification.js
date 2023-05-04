@@ -7,6 +7,10 @@ const certificationSchema = new mongoose.Schema({
   studentId: {
     type: String,
   },
+  SNo : {
+    type: Number,
+    require:true,
+  },
   organizationName: {
     type: String,
     minlenght: 3,
