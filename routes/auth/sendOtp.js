@@ -19,9 +19,9 @@ router.post("/", async (req, res) => {
     let user = await User.findOne({
         mailId:req.body.mailId.toLowerCase(),
     });
-    if(!user) return res.status(400).send(`${req.body.mailId} is not exit in data base`);
+    if(!user) return res.status(400).send(`${req.body.mailId.toLowerCase()} is not exit in data base`);
 
-    await Otp.deleteMany({email: req.body.mailId});
+    await Otp.deleteMany({email: req.body.mailId.toLowerCase()});
 
 
     var transporter = nodemailer.createTransport({
@@ -46,7 +46,7 @@ router.post("/", async (req, res) => {
 
     var mailOptions = {
       from: `"MITS Interns" ${process.env.EMAIL_USERNAME}`,
-      to: req.body.mailId,
+      to: req.body.mailId.toLowerCase(),
       subject: "Hello, Reset Password ", 
       text:``,
       html:`<html>
@@ -62,10 +62,8 @@ router.post("/", async (req, res) => {
     const hashOTP = await bcrypt.hash(otpText, salt);
 
     const saveOtp = new Otp({
-      email: req.body.mailId,
+      email: req.body.mailId.toLowerCase(),
       otp: hashOTP,
-      createAt: Date.now(),
-      expriresAt: Date.now() + 180000,
     });
 
     try {
@@ -76,7 +74,7 @@ router.post("/", async (req, res) => {
           console.log("Email sent: " + info.response);
           await saveOtp.save();
           res.send({
-            status: `Successfully Send OTP to ${req.body.mailId}`,
+            status: `Successfully Send OTP to ${req.body.mailId.toLowerCase()}`,
             data: _.pick(saveOtp, ["_id", "email"]),
           });
         }

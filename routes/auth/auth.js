@@ -39,6 +39,18 @@ router.post("/", async (req, res) => {
   let validpassword = await bcrypt.compare(
     req.body.password,user.password
   );
+
+  //  bcrypt.hash(req.body.password, 10, function(err, hash) {
+  //   if (err) { throw (err); }
+
+  //   bcrypt.compare(req.body.password, user.password, function(err, result) {
+  //       if (err) { throw (err); }
+  //       console.log(result);
+  //   });
+  // });
+
+
+
   if(!validpassword) return res.status(400).send("Invalid password");
 
     res.send(

@@ -19,7 +19,7 @@ const fileStorageEngine = multer.diskStorage({
 const uploadToServer = multer({ storage : fileStorageEngine});
 
 const addUserToDB = async (user) => {
-  const mailId = Object.values(user)[0].toLowerCase();
+  const mailId = Object.values(user)[0];
   const password = Object.values(user)[1];
 
   const salt = await bcrypt.genSalt(10);
@@ -41,4 +41,4 @@ router.post("/registerUsers19942002", uploadToServer.single('newStudentList'), f
       .on('end', ()=>{res.send("Added "+students+" students successfully..");})
 });
 
-export default router;
+export default router;  

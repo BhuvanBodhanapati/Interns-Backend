@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
     const hashPassword = await bcrypt.hash(req.body.resetPassword, salt);
 
     const update = await User.updateOne(
-      { mailId: req.body.mailId },
+      { mailId: req.body.mailId.toLowerCase() },
       { $set: { password: hashPassword } }
     );
     console.log(update);

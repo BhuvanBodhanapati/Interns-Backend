@@ -12,10 +12,10 @@ router.post('/',async (req,res)=>{
     const {error} = validateOtpparams(req.body);
     if(error) return res.status(400).send(error.details[0].message);
 
-    const otpDetails = await Otp.findOne({mailId:req.body.mailId,});
-    // if(!otpDetails) res.send(400).send(`there is no Otp send to This ${req.body.mailId}`);
+    const otpDetails = await Otp.findOne({mailId:req.body.mailId.toLowerCase(),});
+    // if(!otpDetails) res.send(400).send(`there is no Otp send to This ${req.body.mailId.toLowerCase()}`);
 
-    // if (otpDetails.expriresAt < Date.now()){
+    // if (otpDetails.expiresAt < Date.now()){
     //     return res.status(401).send("Otp has expired request again");
     // }
       
@@ -24,7 +24,7 @@ router.post('/',async (req,res)=>{
 
     await Otp.updateOne(
        {
-         mailId: req.body.mailId,
+         mailId: req.body.mailId.toLowerCase(),
        },
        {
          $set: {
@@ -34,7 +34,7 @@ router.post('/',async (req,res)=>{
      );
 
       let updatesDetails = await Otp.findOne({
-        mailId: req.body.mailId,
+        mailId: req.body.mailId.toLowerCase(),
       });
 
     res.send(_.pick(updatesDetails, ["email", "otpVerifyed"]));

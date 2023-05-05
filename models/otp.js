@@ -13,13 +13,11 @@ const otpSchema = new mongoose.Schema({
     minlength: 5,
     maxlenght: 1024,
   },
-  createAt: {
+  createdAt: {
     type: Date,
     require: true,
-  },
-  expriresAt: {
-    type: Date,
-    require: true,
+    default:Date.now(),
+    expires:'180s'
   },
   otpVerifyed: {
     type: Boolean,

@@ -10,7 +10,7 @@ const router = express.Router();
 router.put('/', async (req,res)=>{
     
     const update = await User.updateOne(
-        { mailId: req.body.mailId },
+        { mailId: req.body.mailId.toLowerCase() },
         {
         $set: {
             profile: req.body.profile,
@@ -25,7 +25,7 @@ router.put('/', async (req,res)=>{
     );
 
     const updateWork = await Work.update(
-      { "studentDetails.mailId": req.body.mailId },
+      { "studentDetails.mailId": req.body.mailId.toLowerCase() },
       {
         $set: {
           "studentDetails.profile": req.body.profile,
@@ -40,7 +40,7 @@ router.put('/', async (req,res)=>{
     );
 
     const updateCertification = await Certification.update(
-      { "studentDetails.mailId": req.body.mailId },
+      { "studentDetails.mailId": req.body.mailId.toLowerCase() },
       {
         $set: {
           "studentDetails.profile": req.body.profile,
@@ -57,7 +57,7 @@ router.put('/', async (req,res)=>{
 
     
     const user = await User.findOne({
-        mailId:req.body.mailId
+        mailId:req.body.mailId.toLowerCase()
     });
 
     console.log("user==============",user)
